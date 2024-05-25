@@ -1,17 +1,23 @@
-import React from 'react';
-import ReactDOM from 'react-dom/client';
-import './index.css';
+import React from 'react';//initialize redux in this file first
+import ReactDOM from 'react-dom';
 import App from './App';
-import reportWebVitals from './reportWebVitals';
 
-const root = ReactDOM.createRoot(document.getElementById('root'));
-root.render(
-  <React.StrictMode>
-    <App />
-  </React.StrictMode>
+import { Provider } from 'react-redux';//keep track of store which is a  global state that allows to access the store from anywhere in the project
+import {createStore,applyMiddleware,compose} from 'redux';
+//import { configureStore } from '@reduxjs/toolkit';
+
+import thunk from 'redux-thunk';
+import reducers from'./reducers';
+
+
+const store=createStore(reducers,compose(applyMiddleware(thunk)))
+// const store = configureStore({
+//   reducer: reducers,
+//   middleware: (getDefaultMiddleware) => getDefaultMiddleware().concat(thunk),
+// });
+ReactDOM.render(
+    <Provider store={store}>
+        <App/>
+    </Provider>,
+    document.getElementById('root')
 );
-
-// If you want to start measuring performance in your app, pass a function
-// to log results (for example: reportWebVitals(console.log))
-// or send to an analytics endpoint. Learn more: https://bit.ly/CRA-vitals
-reportWebVitals();
